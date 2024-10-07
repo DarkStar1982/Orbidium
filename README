@@ -3,4 +3,5 @@
 - To run and test
 	* Install Django
 	* populate the local db using "python manage.py process_mpc_file" command
+	* run locally via python manage.py runserver 0.0.0.0:8000"
 - "Works on my Macbook" state, report any bugs on Github
