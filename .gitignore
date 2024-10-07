@@ -1,0 +1,4 @@
+.DS_Store
+*.DAT
+*.sqlite3
+*.pyc
