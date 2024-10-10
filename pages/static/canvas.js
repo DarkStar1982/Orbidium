@@ -1,26 +1,27 @@
-var scale_factor = 1.0;
-var render_style = "ellipse";
+var scale_factor = 1.0; //zoom 
+var render_style = "ellipse"; //default 
 var neos=[];
 var mbas=[];
+const AU = 149.6;
+
 function get_center_point(canvas)
 {
-    if (window.devicePixelRatio > 1) {
-        return [canvas.width/4, canvas.height/4]
-    }
+    //retina screen detection
+    if (window.devicePixelRatio > 1) return [canvas.width/4, canvas.height/4]
     else return [canvas.width/2, canvas.height/2]
 }
 function drawCenter(canvas) {
 
     const ctx = canvas.getContext("2d");
+    var center_point = get_center_point(canvas);
     ctx.beginPath();
-    //retina screen only
-    ctx.arc(canvas.width / 4, canvas.height/ 4, 8, 0, 2*Math.PI);
+    ctx.arc(center_point[0], center_point[1], 8, 0, 2*Math.PI);
     ctx.fillStyle = 'yellow';
     ctx.fill();
     ctx.stroke();
 }
 
-function draw_y_axis(canvas)
+function draw_xy_axis(canvas)
 {
     var center_point= get_center_point(canvas);
     var center_x = center_point[0];
@@ -37,15 +38,7 @@ function draw_y_axis(canvas)
         ctx.lineTo(center_x+10, center_y+t/scale_factor);
     }
     ctx.stroke();
-}
 
-function draw_x_axis(canvas)
-{
-    var center_point= get_center_point(canvas);
-    var center_x = center_point[0];
-    var center_y = center_point[1];
-    const ctx = canvas.getContext("2d");
-    ctx.strokeStyle = "white";
     ctx.beginPath();
     ctx.moveTo(50, center_y);
     ctx.lineTo(1200, center_y);
@@ -60,7 +53,7 @@ function draw_x_axis(canvas)
 
 function draw_asteroid(canvas, asteroid, color)
 {
-    var au=149.6/scale_factor;
+    var au=AU/scale_factor;
     var eccentricity = asteroid.eccentricity
     var semiMajorAxis = asteroid.semimajor_a*au;
     var argPeriapsis = asteroid.argument_perihelion;
@@ -136,8 +129,7 @@ function render_page(reload)
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawCenter(canvas);
-    draw_y_axis(canvas);
-    draw_x_axis(canvas);
+    draw_xy_axis(canvas);
 
     //load asteroids if required
     if (reload==1)
@@ -170,7 +162,7 @@ function render_page(reload)
     //draw scale
     ctx.font = "24px serif";
     ctx.fillStyle = "white";
-    ctx.fillText("Scale: "+Math.round(550/149.6*scale_factor) + " au", 10, 600);
+    ctx.fillText("Scale: "+Math.round(550/AU*scale_factor) + " au", 10, 600);
 }
 function init() {
     document.addEventListener('keydown', function(event) {
