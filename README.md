@@ -5,5 +5,3 @@
 	* populate the local db using "python manage.py process_mpc_file" command
 	* run locally via python manage.py runserver 0.0.0.0:8000"
 - In "works on my Macbook" state of maturity, report any bugs on Github, or better fork and modify on your own.
-
-![all asteroids](https://github.com/DarkStar1982/Orbidium/blob/main/doc/Screenshot%201.png?raw=true)
