@@ -18,7 +18,25 @@
 
 </head>
 
-<body onload="draw()">
+<body onload="init()">
+    <div>
+        <span style="color:white">Object selection</span>
+        <select id="asteroid_type" onchange="render_page(1)">>
+            <option value="pha">Dangerous NEAs</option>
+            <option value="nea">All NEAs</option>
+            <option value="cnt">Centaurs</option>
+            <option value="kbo">KBOs</option>
+            <option value="sdo">Scatted Belt Objects</option>
+            <option value="dto">Detached Objects</option>
+            <option value="mba">Major Asteroids</option>
+            <option value="all">All Asteroids</option>
+        </select>
+        <span style="color:white">View selection</span>
+        <select id="view_type" onchange="render_page(0)">
+            <option value="1">Full orbit</option>
+            <option value="2">Point in orbit</option>
+        </select>
+    </div>
     <div style="max-height: 4096px;max-width:4096px;overflow: scroll;">
           <canvas id="canvasMap" height="4096px" width="4096px"></canvas>
     </div>   

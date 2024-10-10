@@ -288,9 +288,26 @@ def asteroids(request):
 def api(request):
     # load from DB
     asteroid_list = []
-    
+    subset = request.GET.get('subset', None)
+    resultset = None
+    if subset == 'mba':
+        return JsonResponse({"pha":[],"mba":MAINBELT_ONES}, safe=False)
+    if subset == 'pha':
+        resultset = MinorPlanetBody.objects.filter(attributes__contains='>1km PHA')
+    if subset == 'nea':
+        resultset = MinorPlanetBody.objects.filter(attributes__contains='NEO')
+    if subset == 'kbo':
+        resultset = MinorPlanetBody.objects.filter(radius_p__gte=30.33, radius_a__lte=55.0)
+    if subset == 'sdo':
+        resultset = MinorPlanetBody.objects.filter(radius_p__gte=30.33, radius_a__gte=55.0)
+    if subset == 'dto':
+        resultset = MinorPlanetBody.objects.filter(radius_p__gte=55.00)
+    if subset == 'cnt':
+        resultset = MinorPlanetBody.objects.filter(radius_p__gte=5.45, radius_a__lte=30.0)
+    if subset == 'all':
+        resultset = MinorPlanetBody.objects.all()
+    # resultset = MinorPlanetBody.objects.filter(radius_a__gte=200.0)
 
-    resultset = MinorPlanetBody.objects.filter(attributes__contains='>1km PHA')#, radius_a__lte=3.0)
     for x in resultset:
         obj_data = {}
         obj_data["id"] = x.asteroid_id
@@ -308,4 +325,4 @@ def api(request):
         obj_data["asc_node_longitude"] = x.asc_node_longitude
         obj_data["mean_daily_motion"] = x.mean_daily_motion
         asteroid_list.append(obj_data)
-    return JsonResponse({"pha":asteroid_list,"mba":MAINBELT_ONES}, safe=False)
+    return JsonResponse({"pha":asteroid_list,"mba":[]}, safe=False)
