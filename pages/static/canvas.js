@@ -115,7 +115,11 @@ function render_page(reload)
 
     const selectElement = document.getElementById('asteroid_type');
     const asteroid_type = selectElement.value;
-
+    if (asteroid_type == 'one')
+    {
+        var mpc_id = document.getElementById("mpc_id_name").value;
+        console.log(mpc_id);
+    }
     //setup page - retina screen only!
     if (window.devicePixelRatio > 1) {
         var canvasWidth = canvas.width;
@@ -142,7 +146,12 @@ function render_page(reload)
             mbas = data["mba"]
             draw_all_asteroids();
         }
-        xhttp.open("GET", "get_data?subset="+asteroid_type, true);
+        if (asteroid_type == 'one')
+        {
+            xhttp.open("GET", "get_data?subset="+asteroid_type+"&mpc_id="+mpc_id, true);
+        }
+        else
+            xhttp.open("GET", "get_data?subset="+asteroid_type, true);
         xhttp.send();
     }
     else
@@ -150,6 +159,7 @@ function render_page(reload)
         draw_all_asteroids();
     }
     //Outer planets
+    document.getElementById("canvasMap").focus();            
     drawOrbitEllipse(canvas, 4500.0/scale_factor, 273.867, 0.0489, "blue", false); 
     drawOrbitEllipse(canvas, 2870.972/scale_factor, 96.998, 0.04717, "white", false); 
     drawOrbitEllipse(canvas, 1433.53/scale_factor, 339.392, 0.0565, "green", false); 
@@ -179,5 +189,11 @@ function init() {
             break;
         }
     });
+    const text_input = document.getElementById("mpc_id_name");
+    text_input.addEventListener("keyup", function(event) {
+    if (event.key === "Enter") {
+        render_page(1);
+    }
+});
     render_page(1);
 }

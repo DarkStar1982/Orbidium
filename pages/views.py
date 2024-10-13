@@ -289,6 +289,7 @@ def api(request):
     # load from DB
     asteroid_list = []
     subset = request.GET.get('subset', None)
+    mpc_id = request.GET.get('mpc_id', None)
     resultset = None
     if subset == 'mba':
         return JsonResponse({"pha":[],"mba":MAINBELT_ONES}, safe=False)
@@ -306,7 +307,8 @@ def api(request):
         resultset = MinorPlanetBody.objects.filter(radius_p__gte=5.45, radius_a__lte=30.0)
     if subset == 'all':
         resultset = MinorPlanetBody.objects.all()
-    # resultset = MinorPlanetBody.objects.filter(radius_a__gte=200.0)
+    if subset == 'one':
+        resultset = MinorPlanetBody.objects.filter(asteroid_name__contains=mpc_id)
 
     for x in resultset:
         obj_data = {}
