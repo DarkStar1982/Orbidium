@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 import argparse
 import urllib.request
 import os
-from pages.models import MinorPlanetBody 
+from pages.models import MinorPlanetBody
 
 URL_PATH = "https://www.minorplanetcenter.net/iau/MPCORB/MPCORB.DAT"
 FILE_PATH = 'MPCORB.DAT'
@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def unpack_epoch(self, packed):
         unpacked_year_prefix = {'I':'18', "J":'19', "K":'20'}
-        unpacked_month_day = { 
+        unpacked_month_day = {
             '1':'01','2':'02', '3':'03', '4':'04', '5':'05', '6':'06', '7':'07', '8':'08',
             '9':'09', 'A':'10', 'B':'11', 'C':'12', 'D':'13', 'E':'14', 'F':'15', 'G':'16',
             'H':'17', 'I':'18', 'J':'19', 'K':'20', 'L':'21', 'M':'22', 'N':'23', 'O':'24',
@@ -57,7 +57,7 @@ class Command(BaseCommand):
             'G': str_line[15:19], # slope parameter G, ignore it
             'Epoch':self.unpack_epoch(str_line[20:25]), #unpack_epoch(values[3]),
             'M':str_line[26:35], # Mean anomaly at epoch
-            'P':str_line[38:46], # Argument of perihelion, J2000.0 (degrees) 
+            'P':str_line[38:46], # Argument of perihelion, J2000.0 (degrees)
             'N':str_line[49:57], # Longitude of the ascending node, J2000.0 (degrees)
             'I':str_line[60:68], # Inclination
             'E':str_line[70:79], # Eccentricity
@@ -66,7 +66,7 @@ class Command(BaseCommand):
             'U':str_line[105], # Uncertaity?
             'R':str_line[107:116], # Reference
             'O':str_line[118:122], # number of observations
-            'OPP':str_line[123:126], # number of oppositions of observation arc 
+            'OPP':str_line[123:126], # number of oppositions of observation arc
             'ARC':str_line[127:136], # Observartion arc
             'RMS':str_line[137:141], # Residual error
             'PRT1':str_line[142:145], # perturbations, coarse
@@ -94,7 +94,7 @@ class Command(BaseCommand):
         mpc.eccentricty = p_data_line["E"]
         mpc.inclination = p_data_line["I"]
         mpc.radius_a = float(mpc.semimajor_a)*(1.0+float(mpc.eccentricty))
-        mpc.radius_p = float(mpc.semimajor_a)*(1.0-float(mpc.eccentricty))  
+        mpc.radius_p = float(mpc.semimajor_a)*(1.0-float(mpc.eccentricty))
         mpc.mean_anomaly = p_data_line["M"]
         mpc.argument_perihelion = p_data_line["P"]
         mpc.asc_node_longitude = p_data_line["N"]
@@ -104,7 +104,9 @@ class Command(BaseCommand):
     def read_file(self):
         print ("Processing a file into the DB...")
         f = open(FILE_PATH)
+        num_lines = sum(1 for _ in open(FILE_PATH))
         x = 0
+        print ("Number of lines in the file: %d" % num_lines)
         while x<43:
             x = x + 1
             f.readline()
@@ -116,10 +118,13 @@ class Command(BaseCommand):
             # insert_data(data_line, cursor)
             line = f.readline()
             i = i + 1
+            if i % 10000 == 0:
+                percent = i/num_lines*100
+                print ("Processed {} of {} lines ({:.2f}%)".format(i, num_lines, percent))
 
     # create mpc record
     def handle(self, *args, **options):
-        self.stdout.write(self.style.SUCCESS('Starting procesing...'))
+        self.stdout.write(self.style.SUCCESS('Starting processing...'))
         url = URL_PATH
         file_name = FILE_PATH
         if os.path.exists(file_name):
