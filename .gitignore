@@ -1,4 +1,4 @@
 .DS_Store
 *.DAT
-*.sqlite3
+*.sqlite3*
 *.pyc
