@@ -91,10 +91,8 @@ function drawOrbitEllipse(canvas, semiMajorAxis, argPeriapsis, eccentricity, p_c
         if (view_type=="2") 
         {
             var start = Math.random()*2*Math.PI;
-            var stop = start + 0.001;
-            console.log(start);
-            console.log(stop)
-            ctx.ellipse(centerX, centerY, semiMajorAxis, semiMinorAxis, argPeriapsis, 0.0+start, 0.0+stop);//0, 2 * Math.PI);
+            var stop = start+0.001;
+            ctx.ellipse(centerX, centerY, semiMajorAxis, semiMinorAxis, argPeriapsis, start, stop);//0, 2 * Math.PI);
         }
     }
     else
