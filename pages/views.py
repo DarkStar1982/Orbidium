@@ -297,6 +297,8 @@ def api(request):
         resultset = MinorPlanetBody.objects.filter(attributes__contains='>1km PHA')
     if subset == 'nea':
         resultset = MinorPlanetBody.objects.filter(attributes__contains='NEO')
+    if subset == 'trj':
+        resultset = MinorPlanetBody.objects.filter(attributes__contains='Trojan')
     if subset == 'kbo':
         resultset = MinorPlanetBody.objects.filter(radius_p__gte=30.33, radius_a__lte=55.0)
     if subset == 'sdo':
