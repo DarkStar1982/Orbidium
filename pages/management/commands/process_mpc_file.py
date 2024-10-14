@@ -3,6 +3,7 @@ import argparse
 import urllib.request
 import os
 from pages.models import MinorPlanetBody
+from django.db import transaction
 
 URL_PATH = "https://www.minorplanetcenter.net/iau/MPCORB/MPCORB.DAT"
 FILE_PATH = 'MPCORB.DAT'
@@ -101,6 +102,7 @@ class Command(BaseCommand):
         mpc.mean_daily_motion = p_data_line["D"]
         mpc.save()
 
+    @transaction.atomic
     def read_file(self):
         print ("Processing a file into the DB...")
         f = open(FILE_PATH)
