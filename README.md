@@ -7,7 +7,7 @@
 	* run locally via python manage.py runserver 0.0.0.0:8000"
 - In "works on my Macbook" state of maturity, report any bugs on Github, or better fork and modify on your own.
 
-![all asteroids](https://raw.githubusercontent.com/DarkStar1982/Orbidium/refs/heads/main/doc/Screenshot%201.png?raw=true)
+![all asteroids](https://raw.githubusercontent.com/DarkStar1982/Orbidium/refs/heads/main/doc/Screenshot%205.png?raw=true)
 
 
 Join our Discord community for more cool space stuff: https://discord.gg/4WNY6yVVk6
