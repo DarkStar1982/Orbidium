@@ -8,6 +8,10 @@ Features basic 2D rendering as well as parsing of MPC datafile
 
 Join our Discord community for more cool space stuff: https://discord.gg/4WNY6yVVk6
 
+## TODO
+- Add ephemeris data to show actual position of the asteroid on its orbit with respect to current time.
+- Add 3D view using WebGL.
+
 ## Development
 
 The project is in "works on my Macbook" state of maturity, report any bugs on Github, or better fork and modify on your own.
